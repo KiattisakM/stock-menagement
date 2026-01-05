@@ -1,0 +1,153 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Materials (วัสดุ)
+model Material {
+  id              Int        @id @default(autoincrement())
+  name            String     @db.VarChar(100)
+  unit            String     @db.VarChar(20)
+  current_stock   Decimal    @default(0) @db.Decimal(10, 2)
+  min_stock_alert Decimal?   @db.Decimal(10, 2)
+  created_at      DateTime   @default(now())
+
+  stock_in        StockIn[]
+  stock_out       StockOut[]
+  trips           Trip[]
+
+  @@map("materials")
+}
+
+// Stock In (บันทึกสต็อกเข้า)
+model StockIn {
+  id               Int      @id @default(autoincrement())
+  material_id      Int
+  quantity         Decimal  @db.Decimal(10, 2)
+  unit_price       Decimal? @db.Decimal(10, 2)
+  supplier         String?  @db.VarChar(200)
+  note             String?  @db.Text
+  transaction_date DateTime
+  created_at       DateTime @default(now())
+
+  material         Material @relation(fields: [material_id], references: [id])
+
+  @@index([material_id])
+  @@index([transaction_date])
+  @@map("stock_in")
+}
+
+// Stock Out (บันทึกสต็อกออก)
+model StockOut {
+  id               Int      @id @default(autoincrement())
+  material_id      Int
+  quantity         Decimal  @db.Decimal(10, 2)
+  customer_name    String?  @db.VarChar(200)
+  project_name     String?  @db.VarChar(200)
+  note             String?  @db.Text
+  transaction_date DateTime
+  created_at       DateTime @default(now())
+
+  material         Material @relation(fields: [material_id], references: [id])
+
+  @@index([material_id])
+  @@index([transaction_date])
+  @@map("stock_out")
+}
+
+// Employees (พนักงาน)
+model Employee {
+  id             Int      @id @default(autoincrement())
+  name           String   @db.VarChar(100)
+  truck_license  String?  @db.VarChar(50)
+  base_salary    Decimal  @default(0) @db.Decimal(10, 2)
+  rate_per_trip  Decimal  @db.Decimal(10, 2)
+  status         Status   @default(active)
+  created_at     DateTime @default(now())
+
+  trips          Trip[]
+  advances       Advance[]
+  salary_summaries SalarySummary[]
+
+  @@map("employees")
+}
+
+enum Status {
+  active
+  inactive
+}
+
+// Trips (บันทึกการวิ่งงาน)
+model Trip {
+  id          Int      @id @default(autoincrement())
+  employee_id Int
+  trip_date   DateTime @db.Date
+  route       String?  @db.VarChar(200)
+  material_id Int?
+  quantity    Decimal? @db.Decimal(10, 2)
+  rate        Decimal  @db.Decimal(10, 2)
+  note        String?  @db.Text
+  created_at  DateTime @default(now())
+
+  employee    Employee  @relation(fields: [employee_id], references: [id])
+  material    Material? @relation(fields: [material_id], references: [id])
+
+  @@index([employee_id])
+  @@index([trip_date])
+  @@map("trips")
+}
+
+// Advances (เบิกเงินล่วงหน้า)
+model Advance {
+  id           Int      @id @default(autoincrement())
+  employee_id  Int
+  amount       Decimal  @db.Decimal(10, 2)
+  advance_date DateTime @db.Date
+  note         String?  @db.Text
+  created_at   DateTime @default(now())
+
+  employee     Employee @relation(fields: [employee_id], references: [id])
+
+  @@index([employee_id])
+  @@index([advance_date])
+  @@map("advances")
+}
+
+// Salary Summaries (สรุปเงินเดือนรายเดือน)
+model SalarySummary {
+  id                Int      @id @default(autoincrement())
+  employee_id       Int
+  month             Int
+  year              Int
+  total_trips       Int      @default(0)
+  total_trip_income Decimal  @default(0) @db.Decimal(10, 2)
+  total_advances    Decimal  @default(0) @db.Decimal(10, 2)
+  base_salary       Decimal  @default(0) @db.Decimal(10, 2)
+  net_salary        Decimal  @default(0) @db.Decimal(10, 2)
+  is_paid           Boolean  @default(false)
+  paid_date         DateTime? @db.Date
+  created_at        DateTime @default(now())
+
+  employee          Employee @relation(fields: [employee_id], references: [id])
+
+  @@unique([employee_id, month, year])
+  @@index([month, year])
+  @@map("salary_summaries")
+}
+
+// Users (สำหรับ Authentication)
+model User {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique @db.VarChar(100)
+  password   String   @db.VarChar(255)
+  name       String   @db.VarChar(100)
+  role       String   @default("admin") @db.VarChar(20)
+  created_at DateTime @default(now())
+
+  @@map("users")
+}
