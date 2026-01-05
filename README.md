@@ -124,6 +124,13 @@ pnpm prisma migrate reset       # Reset database (DANGER)
 pnpm prisma generate            # Generate Prisma Client
 ```
 
+### Testing
+```bash
+pnpm test:use-cases            # Test all use cases from documentation
+```
+
+See `docs/test-results.md` for test results.
+
 ## Project Structure
 
 ```
@@ -260,6 +267,7 @@ const { data } = useQuery({
 
 - **CLAUDE.md** - Development guidelines for Claude Code
 - **docs/project-documentation.md** - Complete technical specification
+- **docs/test-results.md** - Use case test results
 - **.mahirolab/docs/** - Mahiro Lab integration guides
 
 ## Security Notes

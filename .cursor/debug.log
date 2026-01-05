@@ -1,0 +1,20 @@
+{"location":"login/page.tsx:17","message":"Login form submitted","data":{"email":"admin@example.com","passwordLength":8},"timestamp":1767596555734,"sessionId":"debug-session","runId":"run1","hypothesisId":"G"}
+{"location":"login/page.tsx:24","message":"Before fetch API","data":{"url":"/api/auth/login"},"timestamp":1767596555735,"sessionId":"debug-session","runId":"run1","hypothesisId":"G"}
+{"location":"api/auth/login/route.ts:5","message":"Login API route called","data":{"hasBody":true},"timestamp":1767596555943,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"api/auth/login/route.ts:9","message":"Request body parsed","data":{"hasEmail":true,"hasPassword":true,"emailLength":17,"passwordLength":8},"timestamp":1767596555945,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"api/auth/login/route.ts:20","message":"Before authenticateUser call","data":{"email":"admin@example.com"},"timestamp":1767596555945,"sessionId":"debug-session","runId":"run1","hypothesisId":"B"}
+{"location":"lib/auth.ts:15","message":"authenticateUser called","data":{"email":"admin@example.com","hasPassword":true},"timestamp":1767596555946,"sessionId":"debug-session","runId":"run1","hypothesisId":"B"}
+{"location":"lib/auth.ts:19","message":"Before database query","data":{"hasPrisma":true,"hasDbUrl":true},"timestamp":1767596555947,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"lib/auth.ts:25","message":"Database query completed","data":{"userFound":true,"userId":1,"userEmail":"admin@example.com","hasPasswordHash":true},"timestamp":1767596556000,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"lib/auth.ts:33","message":"Before password verification","data":{"passwordHashLength":60},"timestamp":1767596556000,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"lib/auth.ts:36","message":"Password verification completed","data":{"isValid":true},"timestamp":1767596556071,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"lib/auth.ts:45","message":"Authentication successful","data":{"userId":1},"timestamp":1767596556071,"sessionId":"debug-session","runId":"run1","hypothesisId":"B"}
+{"location":"api/auth/login/route.ts:23","message":"After authenticateUser call","data":{"userFound":true,"userId":1,"userEmail":"admin@example.com"},"timestamp":1767596556072,"sessionId":"debug-session","runId":"run1","hypothesisId":"B"}
+{"location":"api/auth/login/route.ts:35","message":"Before creating response and session cookie","data":{"userId":1},"timestamp":1767596556072,"sessionId":"debug-session","runId":"run1","hypothesisId":"E"}
+{"location":"api/auth/login/route.ts:50","message":"Session cookie set, returning response","data":{"hasCookie":true},"timestamp":1767596556073,"sessionId":"debug-session","runId":"run1","hypothesisId":"E"}
+{"location":"login/page.tsx:32","message":"After fetch, before json","data":{"status":200,"statusText":"OK","ok":true},"timestamp":1767596556078,"sessionId":"debug-session","runId":"run1","hypothesisId":"G"}
+{"location":"login/page.tsx:36","message":"Response data received","data":{"hasError":false,"hasUser":true},"timestamp":1767596556079,"sessionId":"debug-session","runId":"run1","hypothesisId":"G"}
+{"location":"login/page.tsx:42","message":"Login successful, redirecting","data":{},"timestamp":1767596556079,"sessionId":"debug-session","runId":"run1","hypothesisId":"G"}
+{"location":"dashboard/page.tsx:8","message":"Dashboard page loaded","data":{"hasCookies":true,"cookieCount":17,"hasSessionCookie":false},"timestamp":1767596636527,"sessionId":"debug-session","runId":"run2","hypothesisId":"E"}
+{"location":"dashboard/page.tsx:8","message":"Dashboard page loaded","data":{"hasCookies":true,"cookieCount":17,"hasSessionCookie":false},"timestamp":1767596636528,"sessionId":"debug-session","runId":"run2","hypothesisId":"E"}
+{"location":"dashboard/page.tsx:8","message":"Dashboard page loaded","data":{"hasCookies":true,"cookieCount":17,"hasSessionCookie":false},"timestamp":1767596694255,"sessionId":"debug-session","runId":"run2","hypothesisId":"E"}

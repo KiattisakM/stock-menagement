@@ -17,6 +17,7 @@ const navigation = [
     name: 'จัดการสต็อก',
     icon: Package,
     children: [
+      { name: 'จัดการวัสดุ', href: '/stock/materials' },
       { name: 'บันทึกสต็อกเข้า', href: '/stock/in' },
       { name: 'บันทึกสต็อกออก', href: '/stock/out' },
       { name: 'ประวัติสต็อก', href: '/stock/history' },
@@ -26,7 +27,9 @@ const navigation = [
     name: 'จัดการพนักงาน',
     icon: Users,
     children: [
+      { name: 'จัดการพนักงาน', href: '/employees' },
       { name: 'บันทึกการวิ่งงาน', href: '/employees/trips' },
+      { name: 'เบิกเงินล่วงหน้า', href: '/employees/advances' },
       { name: 'คำนวณเงินเดือน', href: '/employees/salary' },
     ]
   },
@@ -88,13 +91,15 @@ export function Sidebar() {
 
       {/* User Section */}
       <div className="border-t border-gray-800 p-4">
-        <Link
-          href="/login"
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-gray-800"
-        >
-          <LogOut className="h-5 w-5" />
-          ออกจากระบบ
-        </Link>
+        <form action="/api/auth/logout" method="POST">
+          <button
+            type="submit"
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-gray-800"
+          >
+            <LogOut className="h-5 w-5" />
+            ออกจากระบบ
+          </button>
+        </form>
       </div>
     </div>
   );

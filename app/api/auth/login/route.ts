@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { authenticateUser } from '@/lib/auth';
+import { setSessionCookie } from '@/lib/session';
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,12 +22,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // In production, you'd set a session cookie here
-    return NextResponse.json({ user });
+    // Create session cookie
+    const response = NextResponse.json({ 
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      }
+    });
+
+    setSessionCookie(response, {
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    });
+
+    return response;
   } catch (error) {
     console.error('Login error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ';
     return NextResponse.json(
-      { error: 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ' },
+      { error: errorMessage },
       { status: 500 }
     );
   }
