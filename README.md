@@ -1,181 +1,293 @@
-# Mahiro Lab - Codex Integration (Level 2: Standard)
+# Stock Management System
 
-> **Installation Level:** 2 (Standard) - Recommended
-> **Last Updated:** 2025-01-03
-> **Status:** Active
+> ระบบจัดการสต็อกวัสดุก่อสร้างและคำนวณเงินเดือนพนักงานขับรถบรรทุก
 
-## Overview
+A full-stack web application for managing construction materials inventory (rocks, soil, sand) and employee payroll for truck drivers.
 
-Level 2 provides the complete Mahiro Lab experience with shortcode protocol, state management, and background workers. Ideal for serious development workflows with Claude Code.
+## Features
 
-## What's Included
+### Stock Management (การจัดการสต็อก)
+- ✅ Material inventory tracking (หิน/ดิน/ทราย)
+- ✅ Stock in/out transactions with validation
+- ✅ Real-time stock balance monitoring
+- ✅ Transaction history with filtering
+- ✅ Automatic stock alerts when inventory is low
+- ✅ Daily LINE notifications at 08:00 for low stock items
 
-- ✅ **All Level 1 features** (codex-exec, codex-research)
-- ✅ **Shortcode Protocol** (ccc, nnn, gogogo, rrr, lll, rrresearch, www)
-- ✅ **State Management** - Session context, plans, progress tracking
-- ✅ **5 Bin Scripts** - Full suite of worker and utility scripts
-- ✅ **Complete Documentation** - Detailed guides for all features
-- ✅ **Template System** - Structured output for research and tasks
-- ✅ **Background Jobs** - Claude-managed workers with monitoring
+### Employee & Payroll (พนักงานและเงินเดือน)
+- ✅ Employee management with truck license tracking
+- ✅ Daily trip recording with auto-calculated rates
+- ✅ Advance payment tracking
+- ✅ Monthly salary calculation: `(base_salary + trip_income) - advances`
+- ✅ Salary payment status tracking
 
-## Quick Start with Shortcodes
+### Reports & Export (รายงานและส่งออกข้อมูล)
+- ✅ PDF generation for salary slips and stock reports
+- ✅ Excel export for monthly summaries
+- ✅ Analytics dashboard with charts (Recharts)
+- ✅ Real-time dashboard alerts with 30-second polling
 
-### Create Session Context
+## Technology Stack
+
+### Frontend & Backend
+- **Next.js 16** with App Router
+- **React 19** with Server Components
+- **TypeScript** (strict mode)
+- **Tailwind CSS v4** with CSS-first configuration
+- **shadcn/ui** - Radix UI components
+
+### Database & ORM
+- **PostgreSQL 14+**
+- **Prisma** - Type-safe database client
+
+### Key Libraries
+- **@react-pdf/renderer** - PDF generation
+- **ExcelJS** - Excel export/import
+- **Recharts** - Charts and analytics
+- **TanStack Query** - Data fetching with real-time polling
+- **Zod** - Schema validation
+- **React Hook Form** - Form management
+- **node-cron** - Scheduled tasks
+- **LINE Notify API** - Push notifications
+
+## Prerequisites
+
+- **Node.js** 18+ and pnpm
+- **PostgreSQL** 14+
+- **LINE Notify Token** (optional, for notifications)
+
+## Installation
+
+### 1. Clone the repository
 ```bash
-# In Claude Code chat, type:
-ccc
+git clone <repository-url>
+cd stock-menagement
 ```
 
-### Create Implementation Plan
+### 2. Install dependencies
 ```bash
-# In Claude Code chat, type:
-nnn
+pnpm install
 ```
 
-### Execute the Plan
+### 3. Setup environment variables
 ```bash
-# In Claude Code chat, type:
-gogogo
+cp .env.example .env
 ```
 
-### Run Background Research
-```bash
-# In Claude Code chat, type:
-rrresearch "React 19 new features"
+Edit `.env` with your configuration:
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/stock_management"
+LINE_NOTIFY_TOKEN="your_line_notify_token_here"
+NEXT_PUBLIC_URL="http://localhost:3000"
 ```
 
-### Run Background Worker
+### 4. Setup database
 ```bash
-# In Claude Code chat, type:
-www medium "Refactor authentication system"
+# Initialize Prisma
+pnpm prisma generate
+
+# Run migrations
+pnpm prisma migrate dev --name init
+
+# (Optional) Seed sample data
+pnpm prisma db seed
 ```
 
-## Shortcode Reference
-
-| Shortcode | Purpose | Usage |
-|-----------|---------|-------|
-| `lll` | List project status | Check progress, git status, recent activity |
-| `ccc` | Create context | Summarize session with continuity support |
-| `nnn` | Create plan | Smart planning with prerequisites |
-| `gogogo` | Execute plan | Run plan with real-time progress tracking |
-| `rrr` | Retrospective | Create comprehensive session summary |
-| `rrresearch` | Research | Claude-managed research with web search |
-| `www` | Worker | Claude-managed background worker |
-
-## Typical Workflow
-
+### 5. Install shadcn/ui components
 ```bash
-lll                    # Check project status
-ccc                    # Create session context
-nnn                    # Create implementation plan
-gogogo                 # Execute plan step-by-step
-rrr                    # Create retrospective
+pnpm dlx shadcn@latest init
+pnpm dlx shadcn@latest add button input select table form card badge alert tabs sheet dialog calendar
 ```
 
-## Examples
-
-### Example 1: Typical Session Workflow
+### 6. Run development server
 ```bash
-# In Claude Code chat:
-lll → ccc → nnn → gogogo → rrr
+pnpm dev
 ```
 
-### Example 2: Background Research
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Common Commands
+
+### Development
 ```bash
-# In Claude Code chat:
-rrresearch "Docker build cache best practices"
+pnpm dev          # Start development server
+pnpm build        # Build for production
+pnpm start        # Start production server
+pnpm lint         # Run ESLint
 ```
 
-### Example 3: Check Project Status
-Shows comprehensive dashboard with progress bars, git status, and recent activity.
+### Database
 ```bash
-# In Claude Code chat:
-lll
+pnpm prisma studio              # Open Prisma Studio (database GUI)
+pnpm prisma migrate dev         # Create and apply migration
+pnpm prisma migrate reset       # Reset database (DANGER)
+pnpm prisma generate            # Generate Prisma Client
+```
+
+## Project Structure
+
+```
+stock-menagement/
+├── app/
+│   ├── (auth)/              # Authentication pages
+│   │   └── login/
+│   ├── (dashboard)/         # Dashboard pages
+│   │   ├── dashboard/       # Main dashboard
+│   │   ├── stock/           # Stock management
+│   │   │   ├── in/         # Stock in
+│   │   │   ├── out/        # Stock out
+│   │   │   └── history/    # Transaction history
+│   │   ├── employees/       # Employee management
+│   │   │   ├── trips/      # Trip recording
+│   │   │   └── salary/     # Salary calculation
+│   │   └── layout.tsx      # Dashboard layout
+│   ├── api/                # API routes
+│   │   ├── stock/
+│   │   ├── employees/
+│   │   └── cron/           # Scheduled tasks
+│   └── layout.tsx          # Root layout
+├── components/
+│   ├── ui/                 # shadcn/ui components
+│   ├── forms/              # Form components
+│   ├── tables/             # Data tables
+│   ├── pdf/                # PDF templates
+│   └── dashboard/          # Dashboard components
+├── lib/
+│   ├── prisma.ts           # Prisma client
+│   ├── auth.ts             # Authentication
+│   ├── line-notify.ts      # LINE integration
+│   └── validations/        # Zod schemas
+├── prisma/
+│   └── schema.prisma       # Database schema
+└── docs/
+    └── project-documentation.md
+```
+
+## Database Schema
+
+### Core Tables
+
+**materials** - Material types (หิน/ดิน/ทราย)
+- Tracks `current_stock` and `min_stock_alert` threshold
+
+**stock_in / stock_out** - Inventory transactions
+- Automatic `current_stock` updates via Prisma transactions
+
+**employees** - Employee records
+- Stores `truck_license`, `base_salary`, `rate_per_trip`
+
+**trips** - Daily trip records
+- Links to employees and materials
+- Contains `route`, `quantity`, `rate`
+
+**advances** - Advance payments
+- Deducted from monthly salary
+
+**salary_summaries** - Monthly salary aggregation
+- Formula: `(base_salary + total_trip_income) - total_advances`
+
+See `docs/project-documentation.md` for detailed schema.
+
+## Development Roadmap
+
+### Phase 1: Setup ✅ CURRENT
+- [x] Initialize Next.js 16 + TypeScript
+- [x] Setup Prisma with PostgreSQL
+- [ ] Install shadcn/ui components
+- [ ] Create database schema
+- [ ] Setup authentication
+- [ ] Create dashboard layout
+
+### Phase 2: Stock Management (Week 3-4)
+- [ ] CRUD for materials
+- [ ] Stock in/out forms
+- [ ] Transaction history
+- [ ] Real-time balance display
+
+### Phase 3: Employee & Payroll (Week 5-6)
+- [ ] CRUD for employees
+- [ ] Trip recording
+- [ ] Advance tracking
+- [ ] Salary calculation
+
+### Phase 4: Reports & Alerts (Week 7-8)
+- [ ] PDF templates
+- [ ] Excel export
+- [ ] Dashboard alerts
+- [ ] LINE Notify integration
+
+### Phase 5: Deployment (Week 9-10)
+- [ ] Testing
+- [ ] Production deployment
+- [ ] User acceptance testing
+
+## Key Implementation Patterns
+
+### Server vs Client Components
+- **Server Components** (default): Data fetching, static content
+- **Client Components** (`'use client'`): Forms, interactivity, browser APIs
+
+### Form Validation
+All forms use React Hook Form + Zod:
+```typescript
+const form = useForm<z.infer<typeof stockInSchema>>({
+  resolver: zodResolver(stockInSchema),
+});
+```
+
+### Database Transactions
+Critical stock updates use Prisma transactions:
+```typescript
+await prisma.$transaction([
+  prisma.stock_in.create({ data: { ... } }),
+  prisma.materials.update({
+    data: { current_stock: { increment: quantity } }
+  })
+]);
+```
+
+### Real-time Alerts
+Dashboard uses TanStack Query with 30-second polling:
+```typescript
+const { data } = useQuery({
+  queryKey: ['low-stock'],
+  queryFn: fetchLowStock,
+  refetchInterval: 30000,
+});
 ```
 
 ## Documentation
 
-- **CLAUDE.md** - Complete usage guide with shortcode protocol
-- **.mahirolab/docs/SHORTCODES.md** - Shortcode reference guide
-- **.mahirolab/docs/STATE_MANAGEMENT.md** - State system documentation
-- **.mahirolab/docs/PROJECT_STRUCTURE.md** - Directory layout guide
-- **.mahirolab/bin/* --help** - Command-line help for each script
+- **CLAUDE.md** - Development guidelines for Claude Code
+- **docs/project-documentation.md** - Complete technical specification
+- **.mahirolab/docs/** - Mahiro Lab integration guides
 
-## Directory Structure
+## Security Notes
 
-```
-.mahirolab/
-├── bin/                      # Executable scripts
-│   ├── codex-exec.sh
-│   ├── codex-research.sh
-│   ├── codex-worker-launcher.sh
-│   ├── codex-status.sh
-│   └── codex-cleanup.sh
-├── docs/                     # Documentation
-│   ├── SHORTCODES.md
-│   ├── STATE_MANAGEMENT.md
-│   ├── PROJECT_STRUCTURE.md
-│   └── COMMIT_GUIDE.md
-├── templates/                # Output templates
-│   ├── research-report.md
-│   ├── worker-task.md
-│   └── code-review.md
-├── research/                 # Research outputs
-├── workers/                  # Worker outputs
-└── state/                    # Session state
-    ├── context.md
-    ├── context_history/
-    ├── plans/
-    ├── retrospectives/
-    ├── progress.md
-    └── execution_log.md
-```
+⚠️ **Important:**
+- Never commit `.env` file
+- Hash passwords with bcrypt
+- Validate all inputs with Zod schemas
+- Use Prisma prepared statements
+- Check stock availability before stock-out operations
 
-## Key Features
+## Contributing
 
-### State Management
-- **Session Continuity** - Continue from previous sessions or start fresh
-- **Context Versioning** - Every session creates a versioned snapshot
-- **Progress Tracking** - Real-time task execution with timestamps and ETA
-- **Analytics** - Productivity metrics, success rates, time tracking
+1. Create a feature branch
+2. Make your changes
+3. Run tests and linting
+4. Submit a pull request
 
-### Background Workers
-- **Claude-Managed** - Visible in Claude UI, can monitor/stop anytime
-- **Progress Monitoring** - Check status with "check worker status"
-- **Configurable Reasoning** - Choose minimal/low/medium/high per task
+## License
 
-### Shortcode Protocol
-- **Efficient Communication** - Quick commands without verbose instructions
-- **Consistent Workflows** - Standardized session management
-- **Session Tracking** - All state files in `.mahirolab/state/`
-
-## Upgrading
-
-**Current Level:** 2 (Standard)
-
-To upgrade to Level 3 (Full):
-- Adds git commit conventions and automation
-- Slash commands for git operations (/git:commit, /git:commit-push)
-- Comprehensive commit guide with emoji standards
-
-Visit the installation page to upgrade (requires reinstallation).
-
-## Safety Notice
-
-⚠️ Scripts use `danger-full-access` mode which grants unrestricted system permissions.
-
-**Run only in isolated development environments:**
-- Keep secrets and credentials out of scope
-- Review generated code before committing
-- Use in controlled environments only
+[Specify your license here]
 
 ## Support
 
-For issues or questions:
-- Check **CLAUDE.md** for detailed documentation
-- Review **.mahirolab/docs/** for specific guides
-- Visit the GitHub repository for updates
+For issues or questions, please refer to:
+- `CLAUDE.md` for development guidelines
+- `docs/project-documentation.md` for technical details
 
 ---
 
-**Generated with Mahiro Lab Codex Integration**
+**Built with Next.js 16, React 19, Prisma, and shadcn/ui**
