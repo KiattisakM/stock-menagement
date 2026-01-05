@@ -46,6 +46,19 @@ node_modules
 /.pnp
 .pnp.js
 
+# pnpm
+pnpm-lock.yaml
+.pnpm-debug.log*
+
+# npm (not used - project uses pnpm)
+package-lock.json
+npm-debug.log*
+
+# yarn (not used - project uses pnpm)
+yarn.lock
+yarn-debug.log*
+yarn-error.log*
+
 # testing
 /coverage
 
@@ -56,9 +69,7 @@ node_modules
 *.pem
 
 # debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+.pnpm-debug.log*
 
 # local env files
 .env

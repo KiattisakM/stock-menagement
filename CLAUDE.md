@@ -43,52 +43,52 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Development
 ```bash
 # Install dependencies
-npm install
+pnpm install
 # or for initial setup with all required packages:
-npm install @prisma/client @react-pdf/renderer react-hook-form zod @hookform/resolvers @tanstack/react-query exceljs node-cron
-npm install -D prisma @types/node-cron
+pnpm add @prisma/client @react-pdf/renderer react-hook-form zod @hookform/resolvers @tanstack/react-query exceljs node-cron
+pnpm add -D prisma @types/node-cron
 
 # Setup Prisma
-npx prisma init
-npx prisma migrate dev --name init
-npx prisma generate
+pnpm prisma init
+pnpm prisma migrate dev --name init
+pnpm prisma generate
 
 # Setup shadcn/ui
-npx shadcn@latest init
-npx shadcn@latest add button input select table form card badge alert tabs sheet dialog calendar
+pnpm dlx shadcn@latest init
+pnpm dlx shadcn@latest add button input select table form card badge alert tabs sheet dialog calendar
 
 # Run development server
-npm run dev
+pnpm dev
 
 # Build for production
-npm run build
+pnpm build
 
 # Start production server
-npm start
+pnpm start
 ```
 
 ### Testing & Linting
 ```bash
 # Run linter
-npm run lint
+pnpm lint
 
 # Type check
-npx tsc --noEmit
+pnpm tsc --noEmit
 ```
 
 ### Database
 ```bash
 # Create migration
-npx prisma migrate dev --name <migration_name>
+pnpm prisma migrate dev --name <migration_name>
 
 # Reset database (DANGER: deletes all data)
-npx prisma migrate reset
+pnpm prisma migrate reset
 
 # Open Prisma Studio
-npx prisma studio
+pnpm prisma studio
 
 # Generate Prisma Client
-npx prisma generate
+pnpm prisma generate
 ```
 
 ---
